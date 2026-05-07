@@ -239,5 +239,14 @@ copepods <- ggplot(data = copepods,
 copepods
 ```
 
+# 1. Visualizing differences across sites in major taxon abundance
+
+## a.
+
+- x-axis: site
+- y-axis: log + 1 transformed average ostracod abundance/L
+- geometry to represent average abundance/L: `geom_jitter()`
+- geometry to represent medians: `stat_summary()` with a visually distinct point
+
 
 
