@@ -248,5 +248,20 @@ copepods
 - geometry to represent average abundance/L: `geom_jitter()`
 - geometry to represent medians: `stat_summary()` with a visually distinct point
 
+## b.
+
+```{r}
+#| label: ostracod-cleaning
+
+# creating new object from clean aquatic inverts
+ostracods <- aq_ins_clean |> 
+  # filter to only include ostracods
+  filter(taxon == "ostracod") |>
+  # create log + 1 transformed abundance column
+  mutate(log_ave_lit = log(ave_lit + 1))
+
+# display 10 random rows from data frame
+slice_sample(ostracods, n = 10)
+```
 
 
