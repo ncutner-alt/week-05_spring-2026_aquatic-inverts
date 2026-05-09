@@ -313,4 +313,9 @@ ostracods_plot
 salinity / (copepods | ostracods_plot)
 ```
 
+## e.
+
+Median copepod abundance is highest at South of Venoco Bridge and Devereux Creek, while median ostracod abundance is highest at South of Phelps Bridge and Devereux Creek. This is shown by the larger colored median points in each panel, as well as the spread of individual observations around those medians.
+
+Ostracod abundance does not appear to closely follow the salinity gradient across sites. For example, South of Phelps Bridge has relatively low median salinity in the top panel but the highest median ostracod abundance in the bottom-right panel, suggesting ostracods may be less strongly associated with salinity than copepods.
 
