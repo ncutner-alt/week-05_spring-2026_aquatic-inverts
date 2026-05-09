@@ -135,7 +135,7 @@ aq_ins_clean <- aq_ins |>
                values_to = "abundance") |> 
   # group by date, site, taxon
   group_by(date, site, taxon) |> 
-  # calculate average abundance per liter (sum abundance divided by 7.5 liters)
+  # calculate average abundance per liter
   summarize(ave_lit = sum(abundance, na.rm = TRUE)/7.5) |> 
   # ungroup data frame
   ungroup() |> 
@@ -157,7 +157,9 @@ aq_ins_clean <- aq_ins |>
     site == "NDC" ~ "Devereux Creek"
   )) |> 
   # setting factor levels for site
-  mutate(site_full = fct_reorder(site_full, med_sal, .fun = "median", .na_rm = TRUE),
+  mutate(site_full = fct_reorder(
+    site_full, med_sal, .fun = "median", .na_rm = TRUE
+    ),
          site_full = fct_rev(site_full))
 ```
 
@@ -263,5 +265,42 @@ ostracods <- aq_ins_clean |>
 # display 10 random rows from data frame
 slice_sample(ostracods, n = 10)
 ```
+
+## c.
+
+```{r}
+#| label: visualizing-ostracods
+#| fig-width: 10
+#| fig-height: 6
+
+# base layer
+ostracods_plot <- ggplot(data = ostracods,
+                         # x-axis: site
+                         # y-axis: log transformed average abundance/L
+                         mapping = aes(x = site_full,
+                                       y = log_ave_lit)) +
+  # first layer: points to represent individual observations
+  geom_jitter(height = 0,
+              width = 0.1,
+              shape = 21) +
+  # second layer: larger colored diamonds to represent site medians
+  stat_summary(geom = "point",
+               fun = "median",
+               size = 4,
+               shape = 23,
+               color = "darkorange") +
+  # wrap long site names so x-axis labels are readable
+  scale_x_discrete(labels = label_wrap(width = 15)) +
+  # relabel axes and add a descriptive title
+  labs(x = "Site",
+       y = "log + 1 transformed average abundance/L",
+       title = "Ostracods") +
+  # use a non-default theme
+  theme_bw()
+
+# display plot
+ostracods_plot
+```
+
 
 
