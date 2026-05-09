@@ -328,3 +328,24 @@ Ostracod abundance does not appear to closely follow the salinity gradient acros
 - color: taxon
 - geometry: `geom_point()`
 - facets: `facet_wrap(~ taxon, scales = "free")`
+
+## b.
+
+```{r}
+#| label: abundance-salinity-cleaning
+
+# create data frame for abundance-salinity figure
+abundance_salinity <- aq_ins_clean |> 
+  # create log + 1 transformed abundance column
+  mutate(log_ave_lit = log(ave_lit + 1)) |> 
+  # change taxon names from snake case to title case
+  mutate(taxon = str_to_title(str_replace_all(taxon, "_", " "))) |> 
+  # order taxon levels by maximum average abundance/L
+  mutate(taxon = fct_reorder(taxon, ave_lit, .fun = max, .desc = TRUE)) |> 
+  # keep columns needed for plot
+  select(taxon, med_sal, ave_lit, log_ave_lit)
+
+# display 10 random rows from data frame
+slice_sample(abundance_salinity, n = 10)
+```
+
