@@ -348,4 +348,36 @@ abundance_salinity <- aq_ins_clean |>
 # display 10 random rows from data frame
 slice_sample(abundance_salinity, n = 10)
 ```
+## c
+
+```{r}
+#| label: abundance-salinity-plot
+#| fig-width: 10
+#| fig-height: 8
+
+# base layer
+ggplot(data = abundance_salinity,
+       # x-axis: median salinity
+       # y-axis: log transformed average abundance/L
+       # color: taxon
+       mapping = aes(x = med_sal,
+                     y = log_ave_lit,
+                     color = taxon)) +
+  # points show each taxon's abundance at each salinity value
+  geom_point() +
+  # separate each taxon into its own panel with free axes
+  facet_wrap(~ taxon,
+             scales = "free") +
+  # use custom colors instead of ggplot defaults
+  scale_color_viridis_d() +
+  # relabel axes and add title
+  labs(x = "Median salinity (ppt)",
+       y = "log + 1 transformed average abundance/L",
+       title = "Aquatic invertebrate abundance by salinity") +
+  # remove legend because taxa are already labeled by facet titles
+  theme(legend.position = "none") +
+  # use a non-default theme
+  theme_bw()
+
+```
 
