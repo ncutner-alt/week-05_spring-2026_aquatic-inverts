@@ -380,4 +380,6 @@ ggplot(data = abundance_salinity,
   theme_bw()
 
 ```
+## d.
 
+Across taxa, abundance appears to vary more strongly at low salinity than at high salinity. Ostracods, cladocerans, diptera chironomids, and annelida oligochaetes have their highest log-transformed abundance values at low salinity, with abundance generally closer to zero at higher salinity values. Copepods show less of a clear negative relationship because some high abundance values also occur at moderate to higher salinity levels. Several taxa, including nematodes, diptera ceratopogonidae, and annelida polychaetes, have mostly low abundance across the salinity range, making their relationship with salinity harder to interpret.
