@@ -54,9 +54,9 @@ sites <- read_xlsx(
 
 # water quality
 water_quality <- read_xlsx(
-      here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
-      sheet = "Water Quality",
-      na = c("", "n/a", "N/A", "over", "173+")
+  here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+  sheet = "Water Quality",
+  na = c("", "n/a", "N/A", "over", "173+")
 )
 
 ```
@@ -98,7 +98,8 @@ water_quality_clean <- water_quality |>
   # calculate median pH, salinity, DO
   summarize(med_ph = median(p_h, na.rm = TRUE),
             med_sal = median(salinity_ppt, na.rm = TRUE),
-            med_do = median(dissolved_oxygen_mg_l, na.rm = TRUE)) |> 
+            med_do = median(dissolved_oxygen_mg_l, na.rm = TRUE),
+            .groups = "drop") |> 
   # ungroup data frame
   ungroup() |> 
   # filter out salinity outliers
@@ -136,7 +137,10 @@ aq_ins_clean <- aq_ins |>
   # group by date, site, taxon
   group_by(date, site, taxon) |> 
   # calculate average abundance per liter
-  summarize(ave_lit = sum(abundance, na.rm = TRUE)/7.5) |> 
+summarize(
+  ave_lit = sum(abundance, na.rm = TRUE) / 7.5,
+  .groups = "drop"
+) |>   
   # ungroup data frame
   ungroup() |> 
   # create a new column called `date_site` to join with water quality
@@ -319,7 +323,7 @@ Median copepod abundance is highest at South of Venoco Bridge and Devereux Creek
 
 Ostracod abundance does not appear to closely follow the salinity gradient across sites. For example, South of Phelps Bridge has relatively low median salinity in the top panel but the highest median ostracod abundance in the bottom-right panel, suggesting ostracods may be less strongly associated with salinity than copepods.
 
-# 2. Vizualizing total abundance as a function of salinity
+# 2. Visualizing total abundance as a function of salinity
 
 ## a.
 
@@ -348,7 +352,8 @@ abundance_salinity <- aq_ins_clean |>
 # display 10 random rows from data frame
 slice_sample(abundance_salinity, n = 10)
 ```
-## c
+
+## c.
 
 ```{r}
 #| label: abundance-salinity-plot
@@ -368,18 +373,19 @@ ggplot(data = abundance_salinity,
   # separate each taxon into its own panel with free axes
   facet_wrap(~ taxon,
              scales = "free") +
-  # use custom colors instead of ggplot defaults
+ # use custom colors instead of ggplot defaults
   scale_color_viridis_d() +
   # relabel axes and add title
   labs(x = "Median salinity (ppt)",
        y = "log + 1 transformed average abundance/L",
        title = "Aquatic invertebrate abundance by salinity") +
-  # remove legend because taxa are already labeled by facet titles
-  theme(legend.position = "none") +
   # use a non-default theme
-  theme_bw()
+  theme_bw() +
+  # remove legend because taxa are already labeled by facet titles
+  theme(legend.position = "none")
 
 ```
+
 ## d.
 
 Across taxa, abundance appears to vary more strongly at low salinity than at high salinity. Ostracods, cladocerans, diptera chironomids, and annelida oligochaetes have their highest log-transformed abundance values at low salinity, with abundance generally closer to zero at higher salinity values. Copepods show less of a clear negative relationship because some high abundance values also occur at moderate to higher salinity levels. Several taxa, including nematodes, diptera ceratopogonidae, and annelida polychaetes, have mostly low abundance across the salinity range, making their relationship with salinity harder to interpret.
